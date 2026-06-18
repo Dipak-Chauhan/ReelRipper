@@ -80,7 +80,7 @@ export default function Settings() {
   if (isLoading) {
     return (
       <div className="page-container" style={{ alignItems: "center", justifyContent: "center" }}>
-        <h3>Loading configurations...</h3>
+        <h3 style={{ color: "var(--md-sys-color-text-secondary)" }}>Loading configurations...</h3>
       </div>
     );
   }
@@ -90,7 +90,7 @@ export default function Settings() {
       <div className="page-header">
         <div>
           <h2 className="page-title">Application Settings</h2>
-          <p style={{ color: "#9E9AA8", fontSize: "14px", marginTop: "4px" }}>
+          <p style={{ color: "var(--md-sys-color-text-secondary)", fontSize: "14px", marginTop: "4px" }}>
             Configure downloads and appearance preferences
           </p>
         </div>
@@ -98,13 +98,14 @@ export default function Settings() {
 
       {message && (
         <div style={{
-          padding: "12px 16px",
-          background: "rgba(0, 230, 118, 0.1)",
-          border: "1px solid rgba(0, 230, 118, 0.2)",
-          borderRadius: "10px",
-          color: "var(--color-secondary)",
+          padding: "14px 20px",
+          background: "rgba(0, 230, 118, 0.08)",
+          border: "1px solid rgba(0, 230, 118, 0.15)",
+          borderRadius: "14px",
+          color: "var(--md-sys-color-secondary)",
           fontSize: "14px",
-          fontWeight: "600"
+          fontWeight: "600",
+          maxWidth: "680px"
         }}>
           ✅ {message}
         </div>
@@ -112,43 +113,46 @@ export default function Settings() {
 
       {error && (
         <div style={{
-          padding: "12px 16px",
-          background: "rgba(255, 23, 68, 0.1)",
-          border: "1px solid rgba(255, 23, 68, 0.2)",
-          borderRadius: "10px",
-          color: "var(--color-error)",
+          padding: "14px 20px",
+          background: "rgba(242, 184, 181, 0.08)",
+          border: "1px solid rgba(242, 184, 181, 0.15)",
+          borderRadius: "14px",
+          color: "var(--md-sys-color-error)",
           fontSize: "14px",
-          fontWeight: "600"
+          fontWeight: "600",
+          maxWidth: "680px"
         }}>
           ⚠️ {error}
         </div>
       )}
 
-      <form onSubmit={handleSave} className="glass-panel" style={{
-        padding: "32px",
-        borderRadius: "20px",
+      <form onSubmit={handleSave} style={{
+        padding: "36px",
+        borderRadius: "24px",
+        backgroundColor: "var(--md-sys-color-surface-container)",
+        border: "1px solid var(--md-sys-color-border-subtle)",
         display: "flex",
         flexDirection: "column",
-        gap: "24px",
+        gap: "28px",
         maxWidth: "680px"
       }}>
         {/* Download Location */}
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          <label style={{ fontSize: "13px", fontWeight: "600", color: "#B388FF" }}>
+          <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--md-sys-color-primary)", letterSpacing: "0.5px" }}>
             DOWNLOAD DESTINATION FOLDER
           </label>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "12px" }}>
             <input
               type="text"
               readOnly
               value={config.download_dir}
               style={{
                 flex: 1,
-                padding: "12px 16px",
-                borderRadius: "10px",
-                background: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid var(--color-border)",
-                color: "white",
+                padding: "12px 18px",
+                borderRadius: "12px",
+                background: "var(--md-sys-color-background)",
+                border: "1px solid var(--md-sys-color-border)",
+                color: "var(--md-sys-color-text-primary)",
                 fontSize: "14px",
                 outline: "none"
               }}
@@ -157,6 +161,7 @@ export default function Settings() {
               type="button"
               className="btn btn-secondary"
               onClick={handlePickDirectory}
+              style={{ padding: "0 24px" }}
             >
               Browse...
             </button>
@@ -167,10 +172,10 @@ export default function Settings() {
         <div style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: "20px"
+          gap: "24px"
         }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#B388FF" }}>
+            <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--md-sys-color-primary)", letterSpacing: "0.5px" }}>
               CONCURRENT THREADS LIMIT
             </label>
             <input
@@ -180,11 +185,11 @@ export default function Settings() {
               value={config.concurrency_limit}
               onChange={(e) => setConfig((prev) => ({ ...prev, concurrency_limit: parseInt(e.target.value) || 3 }))}
               style={{
-                padding: "12px 16px",
-                borderRadius: "10px",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid var(--color-border)",
-                color: "white",
+                padding: "12px 18px",
+                borderRadius: "12px",
+                background: "var(--md-sys-color-background)",
+                border: "1px solid var(--md-sys-color-border)",
+                color: "var(--md-sys-color-text-primary)",
                 fontSize: "14px",
                 outline: "none"
               }}
@@ -192,18 +197,18 @@ export default function Settings() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#B388FF" }}>
+            <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--md-sys-color-primary)", letterSpacing: "0.5px" }}>
               DOWNLOAD QUALITY
             </label>
             <select
               value={config.download_quality}
               onChange={(e) => setConfig((prev) => ({ ...prev, download_quality: e.target.value }))}
               style={{
-                padding: "12px 16px",
-                borderRadius: "10px",
-                background: "#120E22",
-                border: "1px solid var(--color-border)",
-                color: "white",
+                padding: "12px 18px",
+                borderRadius: "12px",
+                background: "var(--md-sys-color-background)",
+                border: "1px solid var(--md-sys-color-border)",
+                color: "var(--md-sys-color-text-primary)",
                 fontSize: "14px",
                 outline: "none",
                 cursor: "pointer"
@@ -219,25 +224,30 @@ export default function Settings() {
 
         {/* Filename Toggles */}
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          <label style={{ fontSize: "13px", fontWeight: "600", color: "#B388FF" }}>
+          <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--md-sys-color-primary)", letterSpacing: "0.5px" }}>
             FILENAME FORMAT BUILDER
           </label>
           
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {[
               { key: "include_date", label: "Include Date Created (YYYY-MM-DD)" },
               { key: "include_media_type", label: "Include Media Type Tag (REEL, POST, etc.)" },
               { key: "include_media_id", label: "Include Media Unique ID Code" }
             ].map((toggle) => (
-              <div key={toggle.key} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+              <div key={toggle.key} style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}>
                 <input
                   type="checkbox"
                   id={toggle.key}
                   checked={(config as any)[toggle.key]}
                   onChange={(e) => setConfig((prev) => ({ ...prev, [toggle.key]: e.target.checked }))}
-                  style={{ cursor: "pointer" }}
+                  style={{
+                    cursor: "pointer",
+                    width: "16px",
+                    height: "16px",
+                    accentColor: "var(--md-sys-color-primary)"
+                  }}
                 />
-                <label htmlFor={toggle.key} style={{ fontSize: "13px", color: "var(--color-text-primary)", cursor: "pointer" }}>
+                <label htmlFor={toggle.key} style={{ fontSize: "14px", color: "var(--md-sys-color-text-primary)", cursor: "pointer" }}>
                   {toggle.label}
                 </label>
               </div>
@@ -249,21 +259,21 @@ export default function Settings() {
         <div style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: "20px"
+          gap: "24px"
         }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#B388FF" }}>
+            <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--md-sys-color-primary)", letterSpacing: "0.5px" }}>
               THEME MODE
             </label>
             <select
               value={config.theme}
               onChange={(e) => setConfig((prev) => ({ ...prev, theme: e.target.value }))}
               style={{
-                padding: "12px 16px",
-                borderRadius: "10px",
-                background: "#120E22",
-                border: "1px solid var(--color-border)",
-                color: "white",
+                padding: "12px 18px",
+                borderRadius: "12px",
+                background: "var(--md-sys-color-background)",
+                border: "1px solid var(--md-sys-color-border)",
+                color: "var(--md-sys-color-text-primary)",
                 fontSize: "14px",
                 outline: "none",
                 cursor: "pointer"
@@ -276,7 +286,7 @@ export default function Settings() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <label style={{ fontSize: "13px", fontWeight: "600", color: "#B388FF" }}>
+            <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--md-sys-color-primary)", letterSpacing: "0.5px" }}>
               THEME ACCENT COLOR
             </label>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -288,12 +298,12 @@ export default function Settings() {
                   width: "44px",
                   height: "44px",
                   border: "none",
-                  borderRadius: "8px",
+                  borderRadius: "100px",
                   background: "none",
                   cursor: "pointer"
                 }}
               />
-              <span style={{ fontSize: "14px", fontWeight: "600", fontFamily: "monospace" }}>
+              <span style={{ fontSize: "14px", fontWeight: "600", fontFamily: "monospace", color: "var(--md-sys-color-text-primary)" }}>
                 {config.accent_color.toUpperCase()}
               </span>
             </div>
@@ -306,9 +316,9 @@ export default function Settings() {
           disabled={isSaving}
           style={{
             alignSelf: "flex-end",
-            padding: "12px 28px",
+            padding: "12px 32px",
             fontSize: "15px",
-            marginTop: "12px"
+            marginTop: "16px"
           }}
         >
           {isSaving ? "Saving Settings..." : "Save Configuration"}
