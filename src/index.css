@@ -271,7 +271,7 @@ button, input, select, textarea {
 /* Material 3 Card Grid - FIX STRETCHING BUG */
 .media-grid {
   display: grid;
-  grid-template-cols: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 24px;
   width: 100%;
 }
