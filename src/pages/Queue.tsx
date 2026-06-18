@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { listen } from "@tauri-apps/api/event";
+import { open } from "@tauri-apps/api/shell";
 
 interface QueueItem {
   id: number;
@@ -15,6 +16,7 @@ interface QueueItem {
   thumbnail_url: string | null;
   video_url: string | null;
   resources_json: string | null;
+  filepath: string | null;
 }
 
 export default function Queue() {
@@ -94,6 +96,15 @@ export default function Queue() {
       fetchQueue();
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const handleOpenFile = async (path: string) => {
+    if (!path) return;
+    try {
+      await open(path);
+    } catch (e) {
+      console.error("Failed to open file:", e);
     }
   };
 
@@ -294,6 +305,16 @@ export default function Queue() {
                     }}>
                       {item.status}
                     </span>
+
+                    {item.status === "COMPLETED" && item.filepath && (
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => handleOpenFile(item.filepath)}
+                        style={{ padding: "8px 16px", fontSize: "12px" }}
+                      >
+                        ▶️ Play
+                      </button>
+                    )}
 
                     <button
                       onClick={() => handleRemove(item.media_id)}

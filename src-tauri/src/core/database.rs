@@ -62,6 +62,7 @@ pub struct QueueItem {
     pub thumbnail_url: Option<String>,
     pub video_url: Option<String>,
     pub resources_json: Option<String>,
+    pub filepath: Option<String>,
 }
 
 pub async fn get_db_pool() -> Result<SqlitePool, sqlx::Error> {
@@ -263,9 +264,10 @@ pub async fn add_to_queue(pool: &SqlitePool, media_id: &str, priority: i64) -> R
 
 pub async fn get_queue_items(pool: &SqlitePool) -> Result<Vec<QueueItem>, sqlx::Error> {
     let items = sqlx::query_as::<_, QueueItem>(
-        "SELECT q.*, m.username, m.media_type, m.taken_at, m.thumbnail_url, m.video_url, m.resources_json
+        "SELECT q.*, m.username, m.media_type, m.taken_at, m.thumbnail_url, m.video_url, m.resources_json, d.filepath
          FROM queue q
          JOIN media_cache m ON q.media_id = m.media_id
+         LEFT JOIN downloads d ON q.media_id = d.media_id
          ORDER BY q.priority DESC, datetime(q.added_at) ASC;"
     )
     .fetch_all(pool)

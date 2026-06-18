@@ -235,13 +235,15 @@ impl QueueManager {
             }
             
             for (idx, res) in resources.iter().enumerate() {
-                let url = res.get("video_url")
+                let video_url_opt = res.get("video_url")
                     .and_then(|u| u.as_str())
-                    .or_else(|| res.get("thumbnail_url").and_then(|u| u.as_str()))
+                    .filter(|s| !s.is_empty());
+                let url = video_url_opt
+                    .or_else(|| res.get("thumbnail_url").and_then(|u| u.as_str()).filter(|s| !s.is_empty()))
                     .unwrap_or("");
                     
                 if !url.is_empty() {
-                    let ext = if res.get("video_url").and_then(|u| u.as_str()).is_some() {
+                    let ext = if video_url_opt.is_some() {
                         "mp4"
                     } else {
                         "jpg"
@@ -250,13 +252,15 @@ impl QueueManager {
                 }
             }
         } else {
-            let url = item.video_url.as_ref()
-                .or(item.thumbnail_url.as_ref())
+            let video_url_opt = item.video_url.as_ref()
+                .filter(|s| !s.is_empty());
+            let url = video_url_opt
+                .or(item.thumbnail_url.as_ref().filter(|s| !s.is_empty()))
                 .cloned()
                 .unwrap_or_default();
                 
             if !url.is_empty() {
-                let ext = if item.video_url.is_some() { "mp4" } else { "jpg" };
+                let ext = if video_url_opt.is_some() { "mp4" } else { "jpg" };
                 urls_to_download.push((url, ext.to_string(), None, None));
             }
         }
@@ -334,16 +338,26 @@ impl QueueManager {
                                     }
                                 }
                                 for (idx, res) in resources.iter().enumerate() {
-                                    let url = res.get("video_url").and_then(|u| u.as_str()).or_else(|| res.get("thumbnail_url").and_then(|u| u.as_str())).unwrap_or("");
+                                    let video_url_opt = res.get("video_url")
+                                        .and_then(|u| u.as_str())
+                                        .filter(|s| !s.is_empty());
+                                    let url = video_url_opt
+                                        .or_else(|| res.get("thumbnail_url").and_then(|u| u.as_str()).filter(|s| !s.is_empty()))
+                                        .unwrap_or("");
                                     if !url.is_empty() {
-                                        let ext = if res.get("video_url").and_then(|u| u.as_str()).is_some() { "mp4" } else { "jpg" };
+                                        let ext = if video_url_opt.is_some() { "mp4" } else { "jpg" };
                                         urls_to_download.push((url.to_string(), ext.to_string(), Some(idx + 1), Some(resources.len())));
                                     }
                                 }
                             } else {
-                                let url = parsed_item.video_url.as_ref().or(parsed_item.thumbnail_url.as_ref()).cloned().unwrap_or_default();
+                                let video_url_opt = parsed_item.video_url.as_ref()
+                                    .filter(|s| !s.is_empty());
+                                let url = video_url_opt
+                                    .or(parsed_item.thumbnail_url.as_ref().filter(|s| !s.is_empty()))
+                                    .cloned()
+                                    .unwrap_or_default();
                                 if !url.is_empty() {
-                                    let ext = if parsed_item.video_url.is_some() { "mp4" } else { "jpg" };
+                                    let ext = if video_url_opt.is_some() { "mp4" } else { "jpg" };
                                     urls_to_download.push((url, ext.to_string(), None, None));
                                 }
                             }
