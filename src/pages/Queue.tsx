@@ -125,7 +125,7 @@ export default function Queue() {
       <div className="page-header">
         <div>
           <h2 className="page-title">Download Queue</h2>
-          <p style={{ color: "#9E9AA8", fontSize: "14px", marginTop: "4px" }}>
+          <p style={{ color: "var(--md-sys-color-text-secondary)", fontSize: "14px", marginTop: "4px" }}>
             {queue.length} items total in queue
           </p>
         </div>
@@ -143,7 +143,7 @@ export default function Queue() {
           <button
             className="btn btn-secondary"
             onClick={handleClearAll}
-            style={{ color: "var(--color-error)", borderColor: "rgba(255, 23, 68, 0.2)" }}
+            style={{ color: "var(--md-sys-color-error)", borderColor: "rgba(242, 184, 181, 0.2)" }}
           >
             🗑️ Clear All
           </button>
@@ -158,26 +158,27 @@ export default function Queue() {
         marginBottom: "8px"
       }}>
         {[
-          { label: "Pending", count: pendingCount, color: "#9E9AA8" },
-          { label: "Downloading", count: downloadingCount, color: "var(--color-primary)" },
-          { label: "Completed", count: completedCount, color: "var(--color-secondary)" },
-          { label: "Failed", count: failedCount, color: "var(--color-error)" }
+          { label: "Pending", count: pendingCount, color: "var(--md-sys-color-text-secondary)" },
+          { label: "Downloading", count: downloadingCount, color: "var(--md-sys-color-primary)" },
+          { label: "Completed", count: completedCount, color: "var(--md-sys-color-secondary)" },
+          { label: "Failed", count: failedCount, color: "var(--md-sys-color-error)" }
         ].map((stat) => (
           <div
             key={stat.label}
-            className="glass-panel"
             style={{
               padding: "16px 20px",
-              borderRadius: "14px",
+              borderRadius: "16px",
+              backgroundColor: "var(--md-sys-color-surface-container)",
+              border: "1px solid var(--md-sys-color-border-subtle)",
               display: "flex",
               flexDirection: "column",
               gap: "4px"
             }}
           >
-            <span style={{ fontSize: "12px", fontWeight: "600", color: "#9E9AA8" }}>
+            <span style={{ fontSize: "11px", fontWeight: "600", color: "var(--md-sys-color-text-secondary)" }}>
               {stat.label.toUpperCase()}
             </span>
-            <span style={{ fontSize: "24px", fontWeight: "800", color: stat.color }}>
+            <span style={{ fontSize: "24px", fontWeight: "700", color: stat.color }}>
               {stat.count}
             </span>
           </div>
@@ -193,7 +194,7 @@ export default function Queue() {
           alignItems: "center",
           justifyContent: "center",
           padding: "80px",
-          color: "#9E9AA8"
+          color: "var(--md-sys-color-text-secondary)"
         }}>
           <span style={{ fontSize: "48px", marginBottom: "16px" }}>📥</span>
           <h3>Queue is empty</h3>
@@ -202,8 +203,10 @@ export default function Queue() {
           </p>
         </div>
       ) : (
-        <div className="glass-panel" style={{
-          borderRadius: "16px",
+        <div style={{
+          borderRadius: "24px",
+          border: "1px solid var(--md-sys-color-border-subtle)",
+          backgroundColor: "var(--md-sys-color-surface)",
           overflow: "hidden"
         }}>
           <div style={{
@@ -222,8 +225,8 @@ export default function Queue() {
                     alignItems: "center",
                     gap: "16px",
                     padding: "16px 20px",
-                    borderBottom: index < queue.length - 1 ? "1px solid var(--color-border)" : "none",
-                    background: item.status === "DOWNLOADING" ? "rgba(124, 77, 255, 0.04)" : "none"
+                    borderBottom: index < queue.length - 1 ? "1px solid var(--md-sys-color-border-subtle)" : "none",
+                    background: item.status === "DOWNLOADING" ? "rgba(208, 188, 255, 0.05)" : "none"
                   }}
                 >
                   <img
@@ -232,7 +235,7 @@ export default function Queue() {
                     style={{
                       width: "40px",
                       height: "60px",
-                      borderRadius: "6px",
+                      borderRadius: "8px",
                       objectFit: "cover",
                       backgroundColor: "#000"
                     }}
@@ -240,14 +243,14 @@ export default function Queue() {
 
                   <div style={{ flex: 1, overflow: "hidden" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <span style={{ fontWeight: "600", fontSize: "14px" }}>@{item.username}</span>
+                      <span style={{ fontWeight: "600", fontSize: "14px", color: "var(--md-sys-color-text-primary)" }}>@{item.username}</span>
                       <span style={{
                         padding: "2px 6px",
                         borderRadius: "4px",
                         fontSize: "9px",
                         fontWeight: "700",
-                        background: "rgba(255,255,255,0.05)",
-                        color: "var(--color-text-muted)"
+                        background: "var(--md-sys-color-surface-container)",
+                        color: "var(--md-sys-color-text-secondary)"
                       }}>
                         {item.media_type}
                       </span>
@@ -258,23 +261,23 @@ export default function Queue() {
                         <div style={{
                           height: "4px",
                           width: "100%",
-                          background: "rgba(255,255,255,0.05)",
+                          background: "var(--md-sys-color-surface-container)",
                           borderRadius: "2px",
                           overflow: "hidden"
                         }}>
                           <div style={{
                             height: "100%",
                             width: `${progress}%`,
-                            background: "var(--color-primary)",
+                            background: "var(--md-sys-color-primary)",
                             transition: "width 0.1s"
                           }} />
                         </div>
-                        <span style={{ fontSize: "11px", color: "var(--color-text-muted)" }}>
+                        <span style={{ fontSize: "11px", color: "var(--md-sys-color-text-secondary)" }}>
                           Downloading: {progress.toFixed(1)}%
                         </span>
                       </div>
                     ) : (
-                      <div style={{ fontSize: "12px", color: "var(--color-text-muted)", marginTop: "4px" }}>
+                      <div style={{ fontSize: "12px", color: "var(--md-sys-color-text-secondary)", marginTop: "4px" }}>
                         Added {new Date(item.added_at).toLocaleString()}
                       </div>
                     )}
@@ -282,12 +285,12 @@ export default function Queue() {
 
                   <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                     <span style={{
-                      padding: "4px 8px",
-                      borderRadius: "6px",
+                      padding: "6px 12px",
+                      borderRadius: "100px",
                       fontSize: "11px",
                       fontWeight: "700",
-                      background: item.status === "COMPLETED" ? "rgba(0, 230, 118, 0.1)" : item.status === "FAILED" ? "rgba(255, 23, 68, 0.1)" : item.status === "DOWNLOADING" ? "rgba(124, 77, 255, 0.1)" : "rgba(255,255,255,0.05)",
-                      color: item.status === "COMPLETED" ? "var(--color-secondary)" : item.status === "FAILED" ? "var(--color-error)" : item.status === "DOWNLOADING" ? "var(--color-primary)" : "var(--color-text-muted)"
+                      background: item.status === "COMPLETED" ? "rgba(0, 230, 118, 0.1)" : item.status === "FAILED" ? "rgba(255, 23, 68, 0.1)" : item.status === "DOWNLOADING" ? "var(--md-sys-color-primary-container)" : "var(--md-sys-color-surface-container)",
+                      color: item.status === "COMPLETED" ? "var(--md-sys-color-secondary)" : item.status === "FAILED" ? "var(--md-sys-color-error)" : item.status === "DOWNLOADING" ? "var(--md-sys-color-primary)" : "var(--md-sys-color-text-secondary)"
                     }}>
                       {item.status}
                     </span>
@@ -297,11 +300,11 @@ export default function Queue() {
                       style={{
                         background: "none",
                         border: "none",
-                        color: "#9E9AA8",
+                        color: "var(--md-sys-color-text-secondary)",
                         cursor: "pointer",
                         padding: "6px",
-                        borderRadius: "6px",
-                        transition: "all 0.2s"
+                        borderRadius: "100px",
+                        transition: "all 0.15s"
                       }}
                       className="trash-btn"
                       title="Remove from queue"
@@ -318,8 +321,8 @@ export default function Queue() {
 
       <style>{`
         .trash-btn:hover {
-          color: var(--color-error) !important;
-          background: rgba(255, 23, 68, 0.1);
+          color: var(--md-sys-color-error) !important;
+          background-color: rgba(242, 184, 181, 0.15);
         }
       `}</style>
     </div>

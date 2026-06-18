@@ -27,7 +27,7 @@ export default function Navigation({
   };
 
   return (
-    <div className="sidebar glass-panel">
+    <div className="sidebar">
       <div>
         <div className="logo-section">
           <div className="logo-icon">R</div>
@@ -65,28 +65,28 @@ export default function Navigation({
       <div>
         {isSyncing && (
           <div style={{
-            padding: "12px",
-            background: "rgba(124, 77, 255, 0.1)",
-            border: "1px solid rgba(124, 77, 255, 0.2)",
-            borderRadius: "10px",
+            padding: "14px",
+            background: "var(--md-sys-color-surface-container)",
+            border: "1px solid var(--md-sys-color-border-subtle)",
+            borderRadius: "16px",
             marginBottom: "16px",
             fontSize: "12px",
             display: "flex",
             flexDirection: "column",
-            gap: "4px"
+            gap: "6px"
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: "600" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: "600", color: "var(--md-sys-color-text-primary)" }}>
               <span style={{
                 display: "inline-block",
                 width: "8px",
                 height: "8px",
-                backgroundColor: "#7C4DFF",
+                backgroundColor: "var(--md-sys-color-primary)",
                 borderRadius: "50%",
-                animation: "pulse 1.5s infinite"
+                boxShadow: "0 0 8px var(--md-sys-color-primary)"
               }}></span>
               Syncing Instagram...
             </div>
-            <div style={{ color: "#9E9AA8" }}>
+            <div style={{ color: "var(--md-sys-color-text-secondary)" }}>
               Scraped: {syncStats.scraped_count} ({syncStats.new_count} new)
             </div>
           </div>

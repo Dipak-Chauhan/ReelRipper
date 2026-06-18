@@ -56,6 +56,7 @@ export default function Library({ isSyncing, setIsSyncing, setSyncStats }: Libra
           const next = { ...prev };
           delete next[media_id];
           return next;
+          return next;
         });
       }
     });
@@ -145,7 +146,7 @@ export default function Library({ isSyncing, setIsSyncing, setSyncStats }: Libra
       <div className="page-header">
         <div>
           <h2 className="page-title">Saved Media Library</h2>
-          <p style={{ color: "#9E9AA8", fontSize: "14px", marginTop: "4px" }}>
+          <p style={{ color: "var(--md-sys-color-text-secondary)", fontSize: "14px", marginTop: "4px" }}>
             {items.length} items cached total
           </p>
         </div>
@@ -173,16 +174,15 @@ export default function Library({ isSyncing, setIsSyncing, setSyncStats }: Libra
             key={type}
             onClick={() => setFilter(type)}
             style={{
-              padding: "8px 18px",
-              borderRadius: "20px",
+              padding: "8px 20px",
+              borderRadius: "100px",
               fontSize: "13px",
               fontWeight: "600",
               border: "none",
               cursor: "pointer",
-              transition: "all 0.2s",
-              background: filter === type ? "var(--color-primary)" : "rgba(255,255,255,0.05)",
-              color: filter === type ? "white" : "var(--color-text-muted)",
-              boxShadow: filter === type ? "0 4px 10px var(--color-primary-glow)" : "none"
+              transition: "all 0.15s ease-in-out",
+              background: filter === type ? "var(--md-sys-color-primary-container)" : "var(--md-sys-color-surface-container)",
+              color: filter === type ? "var(--md-sys-color-on-primary-container)" : "var(--md-sys-color-text-secondary)"
             }}
           >
             {type}
@@ -199,7 +199,7 @@ export default function Library({ isSyncing, setIsSyncing, setSyncStats }: Libra
           alignItems: "center",
           justifyContent: "center",
           padding: "80px",
-          color: "#9E9AA8"
+          color: "var(--md-sys-color-text-secondary)"
         }}>
           <span style={{ fontSize: "48px", marginBottom: "16px" }}>📁</span>
           <h3>No media cached</h3>
@@ -214,7 +214,7 @@ export default function Library({ isSyncing, setIsSyncing, setSyncStats }: Libra
             const status = downloadStatus[item.media_id as string];
             
             return (
-              <div key={item.media_id as string} className="media-card glass-panel">
+              <div key={item.media_id as string} className="media-card">
                 <div className="media-thumbnail-container">
                   <img
                     src={item.thumbnail_url as string || ""}
@@ -231,14 +231,14 @@ export default function Library({ isSyncing, setIsSyncing, setSyncStats }: Libra
                   {status && (
                     <div style={{
                       position: "absolute",
-                      top: "10px",
-                      left: "10px",
-                      padding: "4px 8px",
-                      borderRadius: "6px",
-                      fontSize: "10px",
+                      top: "12px",
+                      left: "12px",
+                      padding: "6px 12px",
+                      borderRadius: "100px",
+                      fontSize: "11px",
                       fontWeight: "700",
-                      background: status === "COMPLETED" ? "rgba(0, 230, 118, 0.9)" : status === "FAILED" ? "rgba(255, 23, 68, 0.9)" : "rgba(124, 77, 255, 0.9)",
-                      color: "white"
+                      background: status === "COMPLETED" ? "rgba(0, 230, 118, 0.95)" : status === "FAILED" ? "rgba(255, 23, 68, 0.95)" : "var(--md-sys-color-primary-container)",
+                      color: status === "COMPLETED" ? "#000" : "#fff"
                     }}>
                       {status}
                     </div>
@@ -261,18 +261,20 @@ export default function Library({ isSyncing, setIsSyncing, setSyncStats }: Libra
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: "rgba(0,0,0,0.5)",
+                    background: "rgba(17, 18, 22, 0.6)",
+                    backdropFilter: "blur(6px)",
+                    WebkitBackdropFilter: "blur(6px)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     opacity: 0,
-                    transition: "opacity 0.2s",
+                    transition: "opacity 0.25s cubic-bezier(0.2, 0, 0, 1)",
                     cursor: "pointer"
                   }}
                   className="hover-overlay"
                   onClick={() => handleQueueDownload(item.media_id as string)}
                   >
-                    <button className="btn btn-primary" style={{ transform: "scale(0.9)" }}>
+                    <button className="btn btn-primary" style={{ padding: "10px 20px" }}>
                       📥 Download
                     </button>
                   </div>
@@ -296,16 +298,16 @@ export default function Library({ isSyncing, setIsSyncing, setSyncStats }: Libra
           position: "fixed",
           bottom: "32px",
           right: "32px",
-          padding: "14px 24px",
-          borderRadius: "12px",
-          background: "#1E1837",
-          border: "1px solid var(--color-primary)",
-          color: "white",
+          padding: "16px 24px",
+          borderRadius: "16px",
+          background: "var(--md-sys-color-surface-container)",
+          border: "1px solid var(--md-sys-color-border)",
+          color: "var(--md-sys-color-text-primary)",
           fontSize: "14px",
           fontWeight: "600",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
           zIndex: 9999,
-          animation: "modalSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
+          animation: "modalSlide 0.25s cubic-bezier(0.2, 0, 0, 1)"
         }}>
           💡 {toastMessage}
         </div>

@@ -70,13 +70,13 @@ export default function History() {
       <div className="page-header">
         <div>
           <h2 className="page-title">Download History</h2>
-          <p style={{ color: "#9E9AA8", fontSize: "14px", marginTop: "4px" }}>
+          <p style={{ color: "var(--md-sys-color-text-secondary)", fontSize: "14px", marginTop: "4px" }}>
             {history.length} completed logs
           </p>
         </div>
 
         {history.length > 0 && (
-          <button className="btn btn-secondary" onClick={handleClearHistory} style={{ color: "var(--color-error)", borderColor: "rgba(255, 23, 68, 0.2)" }}>
+          <button className="btn btn-secondary" onClick={handleClearHistory} style={{ color: "var(--md-sys-color-error)", borderColor: "rgba(242, 184, 181, 0.2)" }}>
             🗑️ Clear History
           </button>
         )}
@@ -90,7 +90,7 @@ export default function History() {
           alignItems: "center",
           justifyContent: "center",
           padding: "80px",
-          color: "#9E9AA8"
+          color: "var(--md-sys-color-text-secondary)"
         }}>
           <span style={{ fontSize: "48px", marginBottom: "16px" }}>📜</span>
           <h3>No downloads logged</h3>
@@ -99,8 +99,10 @@ export default function History() {
           </p>
         </div>
       ) : (
-        <div className="glass-panel" style={{
-          borderRadius: "16px",
+        <div style={{
+          borderRadius: "24px",
+          border: "1px solid var(--md-sys-color-border-subtle)",
+          backgroundColor: "var(--md-sys-color-surface)",
           overflow: "hidden"
         }}>
           <div style={{
@@ -117,7 +119,7 @@ export default function History() {
                   alignItems: "center",
                   gap: "16px",
                   padding: "16px 20px",
-                  borderBottom: index < history.length - 1 ? "1px solid var(--color-border)" : "none"
+                  borderBottom: index < history.length - 1 ? "1px solid var(--md-sys-color-border-subtle)" : "none"
                 }}
               >
                 <img
@@ -126,7 +128,7 @@ export default function History() {
                   style={{
                     width: "40px",
                     height: "60px",
-                    borderRadius: "6px",
+                    borderRadius: "8px",
                     objectFit: "cover",
                     backgroundColor: "#000"
                   }}
@@ -134,14 +136,14 @@ export default function History() {
 
                 <div style={{ flex: 1, overflow: "hidden" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span style={{ fontWeight: "600", fontSize: "14px" }}>@{item.username}</span>
+                    <span style={{ fontWeight: "600", fontSize: "14px", color: "var(--md-sys-color-text-primary)" }}>@{item.username}</span>
                     <span style={{
                       padding: "2px 6px",
                       borderRadius: "4px",
                       fontSize: "9px",
                       fontWeight: "700",
-                      background: "rgba(255,255,255,0.05)",
-                      color: "var(--color-text-muted)"
+                      background: "var(--md-sys-color-surface-container)",
+                      color: "var(--md-sys-color-text-secondary)"
                     }}>
                       {item.media_type}
                     </span>
@@ -149,7 +151,7 @@ export default function History() {
                   
                   <div style={{
                     fontSize: "12px",
-                    color: "var(--color-text-muted)",
+                    color: "var(--md-sys-color-text-secondary)",
                     marginTop: "4px",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
@@ -159,17 +161,17 @@ export default function History() {
                     File: {item.filename || "Failed download"}
                   </div>
 
-                  <div style={{ fontSize: "11px", color: "#6B7280", marginTop: "2px" }}>
+                  <div style={{ fontSize: "11px", color: "var(--md-sys-color-text-secondary)", opacity: 0.7, marginTop: "2px" }}>
                     Finished {new Date(item.downloaded_at).toLocaleString()} • {formatSize(item.file_size)}
                   </div>
 
                   {item.error_message && (
                     <div style={{
                       fontSize: "11px",
-                      color: "var(--color-error)",
+                      color: "var(--md-sys-color-error)",
                       marginTop: "6px",
                       padding: "4px 8px",
-                      background: "rgba(255,23,68,0.05)",
+                      background: "rgba(242, 184, 181, 0.05)",
                       borderRadius: "4px",
                       display: "inline-block"
                     }}>
@@ -180,12 +182,12 @@ export default function History() {
 
                 <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                   <span style={{
-                    padding: "4px 8px",
-                    borderRadius: "6px",
+                    padding: "6px 12px",
+                    borderRadius: "100px",
                     fontSize: "11px",
                     fontWeight: "700",
                     background: item.status === "COMPLETED" ? "rgba(0, 230, 118, 0.1)" : "rgba(255, 23, 68, 0.1)",
-                    color: item.status === "COMPLETED" ? "var(--color-secondary)" : "var(--color-error)"
+                    color: item.status === "COMPLETED" ? "var(--md-sys-color-secondary)" : "var(--md-sys-color-error)"
                   }}>
                     {item.status}
                   </span>
@@ -194,7 +196,7 @@ export default function History() {
                     <button
                       className="btn btn-secondary"
                       onClick={() => handleOpenFile(item.filepath)}
-                      style={{ padding: "6px 12px", fontSize: "12px" }}
+                      style={{ padding: "8px 16px", fontSize: "12px" }}
                     >
                       ▶️ Play
                     </button>
@@ -205,11 +207,11 @@ export default function History() {
                     style={{
                       background: "none",
                       border: "none",
-                      color: "#9E9AA8",
+                      color: "var(--md-sys-color-text-secondary)",
                       cursor: "pointer",
                       padding: "6px",
-                      borderRadius: "6px",
-                      transition: "all 0.2s"
+                      borderRadius: "100px",
+                      transition: "all 0.15s"
                     }}
                     className="trash-btn"
                     title="Delete record"
@@ -225,8 +227,8 @@ export default function History() {
 
       <style>{`
         .trash-btn:hover {
-          color: var(--color-error) !important;
-          background: rgba(255, 23, 68, 0.1);
+          color: var(--md-sys-color-error) !important;
+          background-color: rgba(242, 184, 181, 0.15);
         }
       `}</style>
     </div>
