@@ -1,0 +1,5 @@
+instagrapi>=2.1.1
+yt-dlp>=2024.3.10
+pycryptodomex>=3.20.0
+keyring>=25.0.0
+requests>=2.31.0
