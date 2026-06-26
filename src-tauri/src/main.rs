@@ -71,6 +71,7 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             commands::login,
+            commands::auto_login,
             commands::logout,
             commands::submit_otp,
             commands::trigger_sync,

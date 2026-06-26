@@ -145,6 +145,14 @@ def do_login(params):
     if session_settings:
         try:
             client.set_settings(session_settings)
+            if client.user_id:
+                try:
+                    # Verify session is still valid with a lightweight request
+                    client.user_info(client.user_id)
+                    return {"status": "success", "session_settings": client.get_settings()}
+                except Exception:
+                    # Session expired or invalid, fall through to login
+                    pass
         except Exception:
             pass
             

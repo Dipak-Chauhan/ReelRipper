@@ -99,7 +99,7 @@ export default function Queue() {
     }
   };
 
-  const handleOpenFile = async (path: string) => {
+  const handleOpenFile = async (path: string | null | undefined) => {
     if (!path) return;
     try {
       await open(path);

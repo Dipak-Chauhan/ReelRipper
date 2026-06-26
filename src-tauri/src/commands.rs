@@ -61,6 +61,45 @@ pub async fn login(
 }
 
 #[tauri::command]
+pub async fn auto_login(state: State<'_, AppState>) -> Result<Value, String> {
+    let pool = state.pool.clone();
+    let scraper = state.scraper.clone();
+    
+    // Retrieve remembered username
+    let remembered_username = database::get_setting(&pool, "remembered_username", None)
+        .await
+        .unwrap_or(None);
+        
+    let username = match remembered_username {
+        Some(u) if !u.is_empty() => u,
+        _ => return Err("No remembered username".to_string()),
+    };
+    
+    let password = auth::get_password(&username).unwrap_or_default();
+    let session_settings = auth::load_session(&pool, &username).await;
+    
+    // Call sidecar login with remembered details
+    let login_res = scraper.send_command("login", json!({
+        "username": username,
+        "password": password,
+        "session_settings": session_settings
+    })).await;
+    
+    match login_res {
+        Ok(res) => {
+            // Save updated session if returned
+            if let Some(new_session) = res.get("session_settings") {
+                let _ = auth::save_session(&pool, &username, new_session).await;
+            }
+            Ok(json!({ "status": "success", "username": username }))
+        }
+        Err(e) => {
+            Err(e)
+        }
+    }
+}
+
+#[tauri::command]
 pub async fn logout(username: String, state: State<'_, AppState>) -> Result<Value, String> {
     let username = username.trim().to_lowercase();
     
